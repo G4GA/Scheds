@@ -40,8 +40,12 @@ class InitialWindow(QMainWindow):
         self.close()
 
     def _add_bttns(self):
-        self._create_button('FCFS', WindowFCSF)
-        self._create_button('Round Robin', WindowRR)
+        bttn_info = [
+            ('FCFS', WindowFCSF),
+            ('Round Robin', WindowRR)
+        ]
+        for label, construct in bttn_info:
+            self._create_button(label, construct)
 
     def _create_button(self, label, constr_callback):
         bttn = QPushButton(label)
@@ -98,5 +102,5 @@ class InitialWindow(QMainWindow):
         widget.setLayout(layout)
 
     def _set_window(self):
-        self.setFixedSize(500, 200)
+        self.setFixedHeight(150)
         self.setWindowTitle("Menu")
