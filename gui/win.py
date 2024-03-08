@@ -13,7 +13,7 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QProgressBar
 )
-from fcfs.sched import SchedulerFCFS
+from sched.fcfs import SchedulerFCFS
 from PyQt6.QtCore import Qt
 
 class MainWindow (QMainWindow):
