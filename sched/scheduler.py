@@ -6,6 +6,7 @@ from multiprocessing import Value
 from multiprocessing import Process
 from multiprocessing import cpu_count
 from queue import Queue
+from random import randint
 
 class Scheduler:
     def __init__(self, arg_dict=None):
@@ -59,19 +60,25 @@ class Scheduler:
     def run(self):
         pass
 
-    def _process_callback(self, cur_state, halt, args=None):
+    def _process_callback(self, cur_state, halt, finished_state, args=None):
         pass
 
     def _build_process(self, args=None):
         for i in range(self.p_count, args=None):
             cur_state = Value('I', 0)
             halt = Value('b', False)
+            finished_state = Value('I', randint(2_000, 5_000))
 
             process_dict = {
                 'index': i,
                 'cur_state': cur_state,
                 'halt': halt,
+                'finished_state': finished_state
             }
-            process = Process(target=self._process_callback, args=(cur_state, halt, args))
+            process = Process(target=self._process_callback, args=(cur_state,
+                                                                   halt,
+                                                                   finished_state,
+                                                                   args))
             self.p_list.append(process_dict)
-            self._p_queue.put(process)
+            self._p_queue.put(process, process_dict)
+        self._p_queue.put('STOP', None)
