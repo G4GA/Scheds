@@ -22,6 +22,7 @@ class SchedulerFCFS(Scheduler):
             process.join()
 
     def _process_callback(self, cur_state, halt, finished_state, args=None):
+        _ = args
         while cur_state.value <= finished_state.value:
             if not halt.value:
                 cur_state.value += 1
