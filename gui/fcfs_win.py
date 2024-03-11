@@ -8,4 +8,4 @@ from .sched_win import SchedulerWindow
 
 class WindowFCSF(SchedulerWindow):
     def __init__(self):
-        super().__init__()
+        super().__init__('First Come First Served')

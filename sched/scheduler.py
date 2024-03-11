@@ -51,7 +51,7 @@ class Scheduler:
         return self._settings['p_list']
 
     @property
-    def _p_queue(self) -> Queue:
+    def p_queue(self) -> Queue:
         """
         Returns the process queue
         """
@@ -60,25 +60,23 @@ class Scheduler:
     def run(self):
         pass
 
-    def _process_callback(self, cur_state, halt, finished_state, args=None):
+    def _process_callback(self, process_dict, args=None):
         pass
 
     def _build_process(self, args=None):
-        for i in range(self.p_count, args=None):
+        for i in range(self.p_count):
             cur_state = Value('I', 0)
             halt = Value('b', False)
+            timed_out = Value('b', True)
             finished_state = Value('I', randint(2_000, 5_000))
 
             process_dict = {
                 'index': i,
                 'cur_state': cur_state,
                 'halt': halt,
+                'timed_out': timed_out,
                 'finished_state': finished_state
             }
-            process = Process(target=self._process_callback, args=(cur_state,
-                                                                   halt,
-                                                                   finished_state,
-                                                                   args))
-            self.p_list.append(process_dict)
-            self._p_queue.put(process, process_dict)
-        self._p_queue.put('STOP', None)
+            process = Process(target=self._process_callback, args=(process_dict, args))
+            self.p_list.append(process, process_dict)
+            self.p_queue.put(process_dict)

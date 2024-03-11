@@ -12,8 +12,8 @@ class SchedulerFCFS(Scheduler):
     This class emulates the behavior of an FCFS
     type scheduler.
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, arg_dict=None):
+        super().__init__(arg_dict)
 
     def run(self):
         process, _ = self._p_queue.get()
