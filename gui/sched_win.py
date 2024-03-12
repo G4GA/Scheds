@@ -50,7 +50,7 @@ class SchedulerWindow(QMainWindow):
             name = window_name
 
         self.setWindowTitle(name)
-        self.setFixedSize(1_000, 500)
+        self.setFixedSize(1_200, 500)
 
         self._central_widget['widget'].setLayout(self._central_widget['layout'])
         self._set_ul_widgets()

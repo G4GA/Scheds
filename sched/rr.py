@@ -37,17 +37,16 @@ class SchedulerRR(Scheduler):
         scheduler.start()
 
     def _schedule_process(self):
-        while not self.p_queue.empty:
-            process_dict = self.p_queue.put()
+        while not self.p_queue.empty():
+            process_dict = self.p_queue.get()
             cur_state = process_dict['cur_state']
             finished_state = process_dict['finished_state']
-
             if cur_state.value < finished_state.value:
                 process_dict['timed_out'].value = False
                 sleep(self._time_out / self._SECOND)
                 process_dict['timed_out'].value = True
 
-                self.p_queue.get(process_dict)
+                self.p_queue.put(process_dict)
 
     def _start_process(self):
         if self.p_list:
@@ -69,12 +68,12 @@ class SchedulerRR(Scheduler):
         cur_state = process_dict['cur_state']
         finished_state = process_dict['finished_state']
         halt = process_dict['halt']
-        timed_out = args['timed_out']
+        timed_out = process_dict['timed_out']
 
         while cur_state.value <  finished_state.value:
             if not halt.value and not timed_out.value:
                 cur_state.value += 1
-                sleep(randint(1, finished_state) / self._SECOND)
+                sleep(randint(1, self._time_out) / self._SECOND)
 
 
 

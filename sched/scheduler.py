@@ -68,7 +68,7 @@ class Scheduler:
             cur_state = Value('I', 0)
             halt = Value('b', False)
             timed_out = Value('b', True)
-            finished_state = Value('I', randint(2_000, 5_000))
+            finished_state = Value('I', randint(10_000, 15_000))
 
             process_dict = {
                 'index': i,
@@ -78,5 +78,5 @@ class Scheduler:
                 'finished_state': finished_state
             }
             process = Process(target=self._process_callback, args=(process_dict, args))
-            self.p_list.append(process, process_dict)
+            self.p_list.append((process, process_dict))
             self.p_queue.put(process_dict)
